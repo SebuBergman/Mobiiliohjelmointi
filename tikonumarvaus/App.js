@@ -3,19 +3,33 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
 
 export default function App() {
-  const [count, setCount] = React.useState(0);
+  const [randomnum, setRandomNum] = React.useState(Math.floor(Math.random() * 100) + 1);
 
   const [guess, setGuess] = React.useState(0);
-
   const [syote, setSyote] = React.useState({ guess: ''});
+  const [teksti, setTeksti] = React.useState("Guess a number between 1-100")
 
+  const [counter, setCounter] = React.useState(0)
+  
   const makeGuessPressed = () => {
-    setCount(parseInt(guess));
+    if (guess == randomnum) {
+      Alert.alert('You guessed the number in ' + counter + ' guesses')
+      setTeksti("You guessed correct")
+    }
+    else if (guess < randomnum) {
+      setTeksti("Your guess {guess} is too low")
+      setCounter(counter + 1)
+    }
+    else if (guess > randomnum) {
+      setTeksti("Your guess {guess} is too high")
+      setCounter(counter + 1)
+    }
+    
   }
 
   return (
     <View style={styles.container}>
-      <Text>Guess a number between 1-100 {count}</Text>
+      <Text>{teksti}</Text>
       <TextInput
         style={styles.input}
         onChangeText={guess => setGuess(guess)}
