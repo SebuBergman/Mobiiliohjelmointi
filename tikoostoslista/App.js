@@ -15,7 +15,7 @@ export default function App() {
   }
 
   const buttonClear = () => {
-    
+
   }
 
   return (
@@ -32,7 +32,7 @@ export default function App() {
           />
           <Button
             title="Clear"
-            onPress={buttonClear}
+            onPress={() => setData(() => "")}
           />
           <StatusBar style="auto" />
         </View>
