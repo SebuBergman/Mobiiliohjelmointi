@@ -1,12 +1,7 @@
 {
   "expo": {
-<<<<<<< HEAD
-    "name": "tikolaskinnav",
-    "slug": "tikolaskinnav",
-=======
-    "name": "tikolaskinhistorialla",
-    "slug": "tikolaskinhistorialla",
->>>>>>> 979f808461119163717aed0ac4702e8e427ade45
+    "name": "tikoreseptihaku",
+    "slug": "tikoreseptihaku",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
