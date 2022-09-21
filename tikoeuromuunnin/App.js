@@ -24,15 +24,15 @@ export default function App() {
     fetch(`https://api.apilayer.com/exchangerates_data/convert?to=EUR&from=${exhangeFrom}&amount=${exhangeAmount}`, requestOptions)
       .then(res => res.text())
       .then(result => {
+        setExhangeTo(result.result);
         setExchange(result);
-        console.log(result);
+        console.log(result.result);
       })
       .catch(err => console.error(err));
     }
 
   useEffect(() => {
     getExchange();
-    console.log(exchange);
   }, []);
 
   function open() {
