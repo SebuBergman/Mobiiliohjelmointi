@@ -22,19 +22,18 @@ export default function App() {
   }, []);
 
   return (
-    <View style={styles.container}>
-        <View style={styles.innerContainer}>
-          <Text style={styles.heading}>Recipes:</Text>
-          <FlatList
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) =>
-                <View>
-                  <Text style={styles.title}>{item.strMeal}</Text>
-                  <Image style={styles.tinyImage} source={{uri: item.strMealThumb,}} />
-                </View>
-              }
-              data={allRecipes} />
-          <StatusBar style="auto" />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.innerContainer}>
+        <Text style={styles.heading}>Recipes:</Text>
+        <FlatList
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) =>
+              <View>
+                <Text style={styles.title}>{item.strMeal}</Text>
+                <Image style={styles.tinyImage} source={{uri: item.strMealThumb,}} />
+              </View>
+            }
+            data={allRecipes} />
         </View>
       <View style={styles.searchbar}>
       <TextInput
@@ -43,7 +42,7 @@ export default function App() {
         onChangeText={text => setKeyword(text) } />
       <Button title="Find" onPress= {getRecipes} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

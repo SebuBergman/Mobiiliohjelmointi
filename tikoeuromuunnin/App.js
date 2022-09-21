@@ -1,20 +1,106 @@
+import React from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { Picker } from '@react-native-picker/picker';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
 
 export default function App() {
+  const [exhangeTo, setExhangeTo] = useState('');
+  const [exhangeFrom, setExhangeFrom] = useState('');
+  const [exhangeAmount, setExhangeAmount] = useState('');
+  const [exchange, setExchange] = useState('');
+  const pickerRef = useRef();
+
+  var myHeaders = new Headers();
+  myHeaders.append("apikey", "zWfBTubnPyFpshaM9LqIoLwJdl3s0J50");
+
+  var requestOptions = {
+    method: 'GET',
+    redirect: 'follow',
+    headers: myHeaders
+  };
+
+  const getExchange = () => {
+    fetch(`https://api.apilayer.com/exchangerates_data/convert?to=EUR&from=${exhangeFrom}&amount=${exhangeAmount}`, requestOptions)
+      .then(res => res.text())
+      .then(result => {
+        setExchange(result);
+        console.log(result);
+      })
+      .catch(err => console.error(err));
+    }
+
+  useEffect(() => {
+    getExchange();
+    console.log(exchange);
+  }, []);
+
+  function open() {
+    pickerRef.current.focus();
+  }
+
+  function close() {
+    pickerRef.current.blur();
+  }
+//
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.innerContainer}>
+        <Image
+        style={styles.tinyImage}
+        source={{
+          uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Euro_banknotes%2C_Europa_series.png/800px-Euro_banknotes%2C_Europa_series.png',
+        }}
+        />
+        <Text style={styles.heading}>{exhangeTo}</Text>
+      </View>
+      <View style={styles.exchangebar}>
+        <TextInput
+          style={{fontSize: 18, width: 80, borderBottomWidth: 1.0, marginBottom: 5}}
+          placeholder='amount'
+          onChangeText={text => setExhangeAmount(text) }
+        />
+        <Picker
+          style={styles.picker}
+          ref={pickerRef}
+          selectedValue={exhangeFrom}
+          onValueChange={(itemValue, itemIndex) =>
+            setExhangeFrom(itemValue)
+          }>
+          <Picker.Item label="GBP" value="GBP" />
+          <Picker.Item label="USD" value="USD" />
+        </Picker>
+        <Button title="Convert" onPress= {getExchange} />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+  },
+  innerContainer: {
+    flex: 1,
+    marginTop: 50,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  exchangebar: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  picker: {
+    width: 100,
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  tinyImage: {
+    marginTop: 20,
+    width: 150,
+    height: 150,
   },
 });
