@@ -1,5 +1,4 @@
 import React from "react";
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
 
 export default function App() {
@@ -24,7 +23,6 @@ export default function App() {
       setTeksti("Your guess {guess} is too high")
       setCounter(counter + 1)
     }
-    
   }
 
   return (
@@ -41,7 +39,6 @@ export default function App() {
           onPress={makeGuessPressed}
         />
       </View>
-      <StatusBar style="auto" />
     </View>
   );
 }
