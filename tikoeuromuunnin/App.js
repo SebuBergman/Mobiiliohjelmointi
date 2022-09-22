@@ -6,7 +6,7 @@ import { SafeAreaView, StyleSheet, Text, View, TextInput, Button, Image } from '
 
 export default function App() {
   const [exhangeTo, setExhangeTo] = useState('');
-  const [exhangeFrom, setExhangeFrom] = useState('');
+  const [exhangeFrom, setExhangeFrom] = useState('GBP');
   const [exhangeAmount, setExhangeAmount] = useState('');
   const [exchange, setExchange] = useState('');
   const pickerRef = useRef();
@@ -23,10 +23,10 @@ export default function App() {
   const getExchange = () => {
     fetch(`https://api.apilayer.com/exchangerates_data/convert?to=EUR&from=${exhangeFrom}&amount=${exhangeAmount}`, requestOptions)
       .then(res => res.text())
-      .then(result => {
-        setExhangeTo(result.result);
-        setExchange(result);
-        console.log(result.result);
+      .then(data => {
+        setExchange(data);
+        var parsedData = JSON.parse(data);
+        setExhangeTo(parsedData.result.toFixed(2) + " €")
       })
       .catch(err => console.error(err));
     }
@@ -52,7 +52,7 @@ export default function App() {
           uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Euro_banknotes%2C_Europa_series.png/800px-Euro_banknotes%2C_Europa_series.png',
         }}
         />
-        <Text style={styles.heading}>{exhangeTo}</Text>
+        <Text style={styles.heading}>Exchange: {exhangeTo}</Text>
       </View>
       <View style={styles.exchangebar}>
         <TextInput
@@ -69,6 +69,9 @@ export default function App() {
           }>
           <Picker.Item label="GBP" value="GBP" />
           <Picker.Item label="USD" value="USD" />
+          <Picker.Item label="AUD" value="AUD" />
+          <Picker.Item label="CAD" value="CAD" />
+          <Picker.Item label="JPY" value="JPY" />
         </Picker>
         <Button title="Convert" onPress= {getExchange} />
       </View>
