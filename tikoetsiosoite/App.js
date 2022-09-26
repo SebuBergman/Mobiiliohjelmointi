@@ -7,6 +7,8 @@ export default function App() {
   const [searchLocation, setSearchLocation] = useState('');
   const [mapLatitude, setMapLatitude] = useState(60.200692);
   const [mapLongitude, setMapLongitude] = useState(24.934302);
+  const [mapLatitudeDelta, setMapLatitudeDelta] = useState(0.0250);
+  const [mapLongitudeDelta, setMapLongitudeDelta] = useState(0.0250);
 
   const getLocation = () => {
     fetch(`http://www.mapquestapi.com/geocoding/v1/address?key=GFcrUQ7gujmMbNajsEZdqAyVecm8LL9v&location=${searchLocation},FINLAND`)
@@ -17,7 +19,7 @@ export default function App() {
       //setRegion({latitude: data.results[0].locations[0].latLng.lng, longitude: data.results[0].locations[0].latLng.lat});
       //console.log(data.results[0].locations[0].latLng.lat);
       //console.log(data.results[0].locations[0].latLng.lng);
-      //console.log(`http://www.mapquestapi.com/geocoding/v1/address?key=GFcrUQ7gujmMbNajsEZdqAyVecm8LL9v&location=${searchLocation},FINLAND`)
+      console.log(`http://www.mapquestapi.com/geocoding/v1/address?key=GFcrUQ7gujmMbNajsEZdqAyVecm8LL9v&location=${searchLocation},FINLAND`);
     })
     .catch(err => console.error(err));
   }
@@ -29,12 +31,12 @@ export default function App() {
   const [region, setRegion ] = useState({
     latitude: 60.200692,
     longitude: 24.934302,
-    latitudeDelta: 0.0322,
-    longitudeDelta: 0.0221,
+    latitudeDelta: 0.0200,
+    longitudeDelta: 0.0220,
   });
 
   const onRegionChange = () => {
-    setRegion({latitude: mapLatitude, longitude: mapLongitude, latitudeDelta: mapLatitude - latitudeDelta, longitudeDelta: mapLongitude - longitudeDelta});
+    setRegion({latitude: mapLatitude, longitude: mapLongitude, latitudeDelta: mapLatitudeDelta, longitudeDelta: mapLongitudeDelta});
   }
 
   return (
