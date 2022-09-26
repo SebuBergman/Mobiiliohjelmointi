@@ -18,7 +18,7 @@ export default function App() {
       //setRegion({latitude: data.results[0].locations[0].latLng.lng, longitude: data.results[0].locations[0].latLng.lat});
       //console.log(data.results[0].locations[0].latLng.lat);
       //console.log(data.results[0].locations[0].latLng.lng);
-      console.log(`http://www.mapquestapi.com/geocoding/v1/address?key=GFcrUQ7gujmMbNajsEZdqAyVecm8LL9v&location=${searchLocation},FINLAND`)
+      //console.log(`http://www.mapquestapi.com/geocoding/v1/address?key=GFcrUQ7gujmMbNajsEZdqAyVecm8LL9v&location=${searchLocation},FINLAND`)
     })
     .catch(err => console.error(err));
     }
@@ -28,28 +28,26 @@ export default function App() {
   }, []);
 
   const [region, setRegion ] = useState({
-    latitude: mapLatitude,
-    longitude: mapLongitude,
+    latitude: 60.200692,
+    longitude: 24.934302,
     latitudeDelta: 0.0322,
     longitudeDelta: 0.0221,
   });
 
-  function onRegionChange() {
-    setRegion({latitude: mapLatitude, longitude: mapLongitude});
+  const onRegionChange = () => {
+    setRegion({latitude: mapLatitude, longitude: mapLongitude, latitudeDelta: mapLatitude - latitudeDelta, longitudeDelta: mapLongitude - longitudeDelta});
   }
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.innerContainer}>
         <MapView
           style={styles.mapstyle}
-          region={region}
-          onChange={onRegionChange} >
+          region={region} >
           <Marker
             coordinate={{
               latitude: region.latitude,
               longitude: region.longitude}}
-              title='Testi'
           />
         </MapView>
       </View>
@@ -59,7 +57,7 @@ export default function App() {
           placeholder='Syötä osoite, kaupunki'
           onChangeText={text => setSearchLocation(text) }
         />
-        <Button title="Show" onPress={getLocation} />
+        <Button title="Show" onPress={onRegionChange} />
       </View>
     </SafeAreaView>
   );
