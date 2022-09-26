@@ -1,10 +1,9 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { SafeAreaView, StyleSheet, View, TextInput, Button } from 'react-native';
 import MapView, { Marker } from'react-native-maps';
 
 export default function App() {
-  const [location, setLocation] = useState(null); // State where location is saved
   const [searchLocation, setSearchLocation] = useState('');
   const [mapLatitude, setMapLatitude] = useState(60.200692);
   const [mapLongitude, setMapLongitude] = useState(24.934302);
@@ -21,7 +20,7 @@ export default function App() {
       //console.log(`http://www.mapquestapi.com/geocoding/v1/address?key=GFcrUQ7gujmMbNajsEZdqAyVecm8LL9v&location=${searchLocation},FINLAND`)
     })
     .catch(err => console.error(err));
-    }
+  }
 
   useEffect(() => {
     getLocation();
