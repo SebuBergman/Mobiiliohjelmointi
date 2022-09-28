@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
 
 export default function App() {

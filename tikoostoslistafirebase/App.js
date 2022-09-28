@@ -1,9 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { SafeAreaView, StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getDatabase, push, ref, onValue } from 'firebase/database';
 
 export default function App() {
+  const [product, setProduct] = useState('');
+  const [amount, setAmount] = useState('');
+  const [items, setItems] = useState([]);
+
   // Your web app's Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyA2SYWkh3Jc1q9Teo7I0qI3PGuYwK1uN4M",
@@ -17,21 +23,84 @@ export default function App() {
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
 
-  //ref(database,'items/')
+  ref(database,'items/')
+
+  //Use Effect for database connection
+  useEffect(() => {
+    const itemsRef = ref(database, 'items/');
+    onValue(itemsRef, (snapshot) => {
+      const data = snapshot.val();
+      setItems(Object.values(data));
+    })
+  }, []);
+
+  //Save item to firebase realtime database
+  const saveItem = () => {
+    push(
+      ref(database, 'items/'),
+      { 'product': product, 'amount': amount });
+  }
 
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.innerContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholder='Product'
+          onChangeText={product => setProduct(product) }
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder='Amount'
+          onChangeText={amount => setAmount(amount) }
+        />
+        <Button title="Save" onPress= {saveItem} />
+      </View>
+      <View style={styles.viewShoppingList}>
+        <Text style={styles.heading}>Shopping list</Text>
+        <FlatList
+          style={{marginLeft : "5%"}}
+          data={items}
+          renderItem={({ item }) =>
+            <View style={styles.listcontainer}>
+              <Text>{item.product}, {item.amount}</Text>
+              <Text style={{color: '#0000ff'}} onPress={() => deleteItem(item.id)}>delete</Text>
+            </View>}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+  },
+  innerContainer: {
+    flex: 1,
+    marginTop: 50,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  viewShoppingList: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  textInput: {
+    fontSize: 18,
+    width: 80,
+    borderBottomWidth: 1.0,
+    marginBottom: 5,
+  },
+  listcontainer: {
+    marginTop: 20,
     justifyContent: 'center',
   },
 });
