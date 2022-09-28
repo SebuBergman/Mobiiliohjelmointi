@@ -14,7 +14,7 @@ export default function App() {
   const getLocation = () => {
     setMapLatitude(location.coords.latitude);
     setMapLongitude(location.coords.longitude);
-    setRegion({latitude: mapLatitude, longitude: mapLongitude, latitudeDelta: mapLatitudeDelta, longitudeDelta: mapLongitudeDelta});
+    setRegion({...region, latitude: mapLatitude, longitude: mapLongitude, latitudeDelta: mapLatitudeDelta, longitudeDelta: mapLongitudeDelta});
   }
 
   useEffect(() => {
