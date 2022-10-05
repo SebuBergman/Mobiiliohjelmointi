@@ -32,8 +32,8 @@ export default function App() {
     const itemsRef = ref(database, 'items/');
     onValue(itemsRef, (snapshot) => {
       const data = snapshot.val();
-      setItems(Object.values(data));
-      console.log(items);
+      const items = data ? Object.keys(data).map(id => ({ id, ...data[id]})) : [];
+      setItems(items);
     })
   }, []);
 
@@ -75,7 +75,7 @@ export default function App() {
         <FlatList
           style={{marginLeft : "5%"}}
           data={items}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={item => item.id}
           renderItem={({ item }) =>
             <View style={styles.listcontainer}>
               <Text>{item.product}, {item.amount}</Text>
