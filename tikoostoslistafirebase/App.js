@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getDatabase, push, ref, onValue } from 'firebase/database';
+import { getDatabase, push, ref, onValue, remove } from 'firebase/database';
 
 export default function App() {
   const [product, setProduct] = useState('');
@@ -25,7 +25,7 @@ export default function App() {
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
 
-  ref(database,'items/')
+  
 
   //Use Effect for database connection
   useEffect(() => {
@@ -33,6 +33,7 @@ export default function App() {
     onValue(itemsRef, (snapshot) => {
       const data = snapshot.val();
       setItems(Object.values(data));
+      console.log(items);
     })
   }, []);
 
@@ -41,6 +42,17 @@ export default function App() {
     push(
       ref(database, 'items/'),
       { 'product': product, 'amount': amount });
+  }
+
+  const deleteItem = (item) => {
+      console.log(item);
+      remove(ref(database, 'items/' + item))
+      .then(function() {
+        console.log("Remove succeeded.")
+      })
+      .catch(function(error) {
+        console.log("Remove failed: " + error.message)
+      });
   }
 
   return (
@@ -63,6 +75,7 @@ export default function App() {
         <FlatList
           style={{marginLeft : "5%"}}
           data={items}
+          keyExtractor={item => item.id.toString()}
           renderItem={({ item }) =>
             <View style={styles.listcontainer}>
               <Text>{item.product}, {item.amount}</Text>
