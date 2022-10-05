@@ -20,7 +20,7 @@ export default function App() {
     db.transaction(tx => {
       tx.executeSql('insert into grocerylist (product, amount) values (?, ?);',
         [product, amount]);
-    }, errorAlertSave, updateList)
+    }, errorAlertSave, updateList);
   }
 
   const updateList = () => {
@@ -34,7 +34,7 @@ export default function App() {
   const deleteItems = (id) => {
     db.transaction(tx => {
       tx.executeSql('delete from grocerylist where id = ?;', [id]);
-    }), errorAlertDelete, updateList
+    }, errorAlertDelete, updateList);
   }
 
   const errorAlertDelete = () => {
@@ -70,7 +70,7 @@ export default function App() {
           renderItem={({ item }) =>
             <View style={styles.listcontainer}>
               <Text>{item.product}, {item.amount}</Text>
-              <Text style={{color: '#0000ff'}} onPress={() => deleteItems(item.id)}>bought</Text>
+              <Text style={{fontSize: 18, color: '#0000ff'}} onPress={() => deleteItems(item.id)}>bought</Text>
             </View>}
         />
       </View>
