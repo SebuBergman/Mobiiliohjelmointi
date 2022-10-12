@@ -26,7 +26,7 @@ export default function App() {
           <FlatList
               renderItem={({ item }) =>
                 <View>
-                  <Text style={styles.title}>{item.name} {item.number}</Text>
+                  <Text style={styles.title}>{item.name} {item.PhoneNumbers}</Text>
                 </View>
               }
               data={contact} />

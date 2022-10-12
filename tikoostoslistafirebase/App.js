@@ -25,11 +25,9 @@ export default function App() {
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
 
-  
-
   //Use Effect for database connection
   useEffect(() => {
-    const itemsRef = ref(database, 'items/');
+    const itemsRef = ref(database, 'points/');
     onValue(itemsRef, (snapshot) => {
       const data = snapshot.val();
       const items = data ? Object.keys(data).map(id => ({ id, ...data[id]})) : [];
