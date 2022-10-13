@@ -43,7 +43,6 @@ export default function App() {
   }
 
   const deleteItem = (item) => {
-      console.log(item);
       remove(ref(database, 'items/' + item))
       .then(function() {
         console.log("Remove succeeded.")

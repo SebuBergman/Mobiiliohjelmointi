@@ -19,17 +19,18 @@ export default function App() {
     console.log(contact);
   }
   
-  /*return (
+  return (
     <SafeAreaView style={styles.container}>
       <View style={styles.innerContainer}>
         <View style={styles.centerResult}>
           <FlatList
+              data={contact}
               renderItem={({ item }) =>
                 <View>
-                  <Text style={styles.title}>{item.name} {item.PhoneNumbers}</Text>
+                  <Text style={styles.title}>{item.name} {item.PhoneNumbers[0].number}</Text>
                 </View>
               }
-              data={contact} />
+              />
         </View>
         <Button
           title="Get Contacts"
@@ -37,13 +38,6 @@ export default function App() {
         />
       </View>
     </SafeAreaView>
-  );
-*/
-return (
-  <View style={styles.container}>
-    <Text>{contact.name} {contact.PhoneNumbers}</Text>
-    <Button title="Get Contact"onPress={getContacts} />
-  </View>
   );
 }
 
