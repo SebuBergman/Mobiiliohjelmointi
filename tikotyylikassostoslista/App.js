@@ -62,23 +62,23 @@ export default function App() {
         <Button 
         icon={
           <Icon
-            name="arrow-right"
-            size={15}
+            name="save"
+            size={25}
             color="white"
           />
         }
         title="Save" onPress={saveGroceries} />
       </View>
       <View style={styles.viewShoppingList}>
+        
         <Text style={styles.heading}>Shopping list</Text>
         {
           itemList.map((item, i) => (
             <ListItem key={i} bottomDivider>
-              <Icon type="material" icon="delete" />
               <ListItem.Content>
-                <ListItem.Title>{item.product}, {item.amount}</ListItem.Title>
+                <ListItem.Title>{item.product}, {item.amount} </ListItem.Title>
               </ListItem.Content>
-              <ListItem.Chevron />
+              <Icon type="material" name="delete" onPress={() => deleteItems(item.id)}/>
             </ListItem>
           ))
         }
@@ -93,12 +93,11 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
-    marginTop: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
   viewShoppingList: {
-    flex: 2,
+    flex: 1,
     justifyContent: 'center',
   },
   heading: {
