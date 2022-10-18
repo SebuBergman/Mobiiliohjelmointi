@@ -51,11 +51,13 @@ export default function App() {
       <View style={styles.innerContainer}>
         <Input
           placeholder='Product'
+          label="Product"
           onChangeText={ product => setProduct(product) }
           value={product}
         />
         <Input
           placeholder='Amount'
+          label="Amount"
           onChangeText={ amount => setAmount(amount) }
           value={amount}
         />

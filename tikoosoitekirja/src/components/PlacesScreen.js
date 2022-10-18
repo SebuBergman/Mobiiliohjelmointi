@@ -1,14 +1,18 @@
 import React from 'react';
-import { useEffect, useState, useRef } from 'react';
-import { SafeAreaView, StyleSheet, View, Alert } from 'react-native';
+import { useEffect, useState } from 'react';
+import { SafeAreaView, StyleSheet, View, Alert, TouchableHighlight } from 'react-native';
 import { Input, Button, ListItem, Icon, Text } from'react-native-elements';
 import * as SQLite from 'expo-sqlite';
 
-const db = SQLite.openDatabase('addressdb.db');
+const db = SQLite.openDatabase('test2db.db');
 
-export default function AddressScreen() {
+export default function PlacesScreen({ navigation }) {
   const [address, setAddress] = useState('');
+  const [mapAddress, setMapAdress] = useState('');
   const [savedAddresses, setSavedAddresses] = useState([]);
+
+  const delay = 500; // anti-rebound for 500ms
+  let lastExecution = 0;
 
   //SQLite functions
   useEffect(() => {
@@ -39,12 +43,6 @@ export default function AddressScreen() {
     }, errorAlertDelete, updateList);
   }
 
-  const deleteDB = () => {
-    db.transaction(tx => {
-      tx.executeSql('drop database addresslist;');
-    }, errorAlertDelete, updateList);
-  }
-
   const errorAlertDelete = () => {
     Alert.alert('Something went wrong with deletion');
   }
@@ -53,9 +51,17 @@ export default function AddressScreen() {
     Alert.alert('Something went wrong saving');
   }
 
-  const ShowOnMap = () => {
-    
+  const ShowOnMap = (address) => {
+    setMapAdress(address);
+    navigation.navigate('Map', {mapAddress});
   }
+
+  /*const NavigateToMapPage = () => {
+    navigation.navigate('Map', {mapAddress});
+  }*/
+
+  //onPress={() => navigation.navigate('Map', {mapAddress})}
+  //onPress={ShowOnMap(item.address)}
 
   return (
     <SafeAreaView style={styles.container}>
@@ -81,12 +87,11 @@ export default function AddressScreen() {
       <View style={styles.addressContainer}>
         {
           savedAddresses.map((item, i) => (
-            <ListItem key={i} bottomDivider>
+            <ListItem key={i} onPress={() => ShowOnMap(item.address)} onLongPress={() => deleteItems(item.id)} bottomDivider>
               <ListItem.Content>
                 <ListItem.Title>{item.address}</ListItem.Title>
               </ListItem.Content>
-              <Text onPress={() => ShowOnMap()}>Show on map</Text>
-              {/*<Text onPress={() => deleteItems(item.id)}>delete</Text>*/}
+              <Text>Show on map</Text>
               <ListItem.Chevron />
             </ListItem>
           ))
@@ -106,5 +111,4 @@ const styles = StyleSheet.create({
   addressContainer: {
     flex: 1,
   },
-
 });
